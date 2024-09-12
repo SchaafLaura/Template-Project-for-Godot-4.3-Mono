@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://chvq0o1wpf07a"]
+
+[node name="KeybindMenuScene" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+offset_left = 370.0
+offset_top = 165.0
+offset_right = 534.0
+offset_bottom = 297.0
+text = "keybinds
+"

@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3 uid="uid://b11vmx6jy5y3b"]
+
+[ext_resource type="Script" path="res://Scenes/Menus/MainMenu/MainMenuButtonHandler.cs" id="1_0m461"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("1_0m461")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 378.0
+offset_top = 161.0
+offset_right = 563.0
+offset_bottom = 308.0
+text = "main menu
+"
+
+[node name="btn_start" type="Button" parent="."]
+offset_left = 385.0
+offset_top = 255.0
+offset_right = 582.0
+offset_bottom = 316.0
+text = "start"
+
+[node name="btn_settings" type="Button" parent="."]
+offset_left = 384.0
+offset_top = 336.0
+offset_right = 581.0
+offset_bottom = 397.0
+text = "settings
+"
+
+[node name="btn_quit" type="Button" parent="."]
+offset_left = 385.0
+offset_top = 418.0
+offset_right = 582.0
+offset_bottom = 479.0
+text = "bye"
+
+[connection signal="pressed" from="btn_start" to="Node" method="OnStartPressed"]
+[connection signal="pressed" from="btn_settings" to="Node" method="OnSettingsPressed"]
+[connection signal="pressed" from="btn_quit" to="Node" method="OnQuitPressed"]

@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bfow4iq6ervw6"]
+
+[node name="ChooseSettingsMenuScene" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+offset_left = 476.0
+offset_top = 255.0
+offset_right = 771.0
+offset_bottom = 445.0
+text = "choose settings menu
+"
