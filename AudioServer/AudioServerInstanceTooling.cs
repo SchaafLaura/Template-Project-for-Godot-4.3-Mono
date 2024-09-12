@@ -15,7 +15,7 @@ public partial class AudioServerInstance : Node
         {
             backingFieldForNothing = Sounds._PickSound_;
 
-            soundsToLoad ??= new();
+            soundsToLoad ??= [];
             if(!soundsToLoad.Contains(value))
                 soundsToLoad.Add(value);
 
@@ -36,7 +36,7 @@ public partial class AudioServerInstance : Node
             backingFieldForNothing1 = SoundLists._PickCategory_;
 
             var soundsToAdd = AudioServer.GetSoundsFromCategory(value);
-            soundsToLoad ??= new();
+            soundsToLoad ??= [];
             foreach (var sound in soundsToAdd)
                 if (!soundsToLoad.Contains(sound))
                     soundsToLoad.Add(sound);
@@ -46,5 +46,5 @@ public partial class AudioServerInstance : Node
     }
 
     [Export]
-    private Array<Sounds> soundsToLoad = new();
+    private Array<Sounds> soundsToLoad = [];
 }

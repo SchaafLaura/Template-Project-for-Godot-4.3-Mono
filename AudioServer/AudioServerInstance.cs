@@ -12,9 +12,7 @@ public partial class AudioServerInstance : Node
     public AudioServerInstance() { } // needed for global classes
     public AudioServerInstance(IEnumerable<Sounds> sounds)
     {
-        soundsToLoad = new();
-        foreach(var s in sounds)
-            soundsToLoad.Add(s);
+        soundsToLoad = [.. sounds];
     }
 
     public override void _Ready()
@@ -25,38 +23,37 @@ public partial class AudioServerInstance : Node
 
     public void Toggle(Sounds soundToToggle)
     {
-        if (!sounds.ContainsKey(soundToToggle))
+        if (!sounds.TryGetValue(soundToToggle, out Sound value))
         {
             Debug.Print("Tried toggling, but sound '" + soundToToggle.ToString() + "' was not loaded or does not exist");
             return;
         }
-        //sounds[soundToToggle].Play(fromPosition);
-        sounds[soundToToggle].Toggle();
+        value.Toggle();
     }
 
     public void ToggleLooping(Sounds soundToToggleLooping)
     {
-        if (!sounds.ContainsKey(soundToToggleLooping))
+        if (!sounds.TryGetValue(soundToToggleLooping, out Sound value))
         {
             Debug.Print("Tried toggling, but sound '" + soundToToggleLooping.ToString() + "' was not loaded or does not exist");
             return;
         }
-
-        sounds[soundToToggleLooping].ToggleLooping();
-
+        value.ToggleLooping();
     }
 
     public void Stop(Sounds soundToStop)
     {
-        if (!sounds.ContainsKey(soundToStop))
+        if (!sounds.TryGetValue(soundToStop, out Sound value))
         {
             Debug.Print("Tried stopping, but sound '" + soundToStop.ToString() + "' was not loaded or does not exist");
             return;
         }
-        sounds[soundToStop].Stop();
+        value.Stop();
     }
 
+#pragma warning disable CA1822 // Mark members as static
     public Sounds GetSoundByName(string name)
+#pragma warning restore CA1822 // Mark members as static
     {
         Sounds sound = (Sounds)(-1);
         try
@@ -70,16 +67,14 @@ public partial class AudioServerInstance : Node
         return sound;
     }
 
-
-
     public void Play(Sounds soundToPlay, float fromPosition = 0)
     {
-        if (!sounds.ContainsKey(soundToPlay))
+        if (!sounds.TryGetValue(soundToPlay, out Sound value))
         {
             Debug.Print("Tried playing, but sound '" + soundToPlay.ToString() + "' was not loaded or does not exist");
             return;
         }
-        sounds[soundToPlay].Play(fromPosition);
+        value.Play(fromPosition);
     }
 
     public void AddPlayersAsChildren()
@@ -100,12 +95,12 @@ public partial class AudioServerInstance : Node
 
     public void SetLinearVolume(float volume, Sounds sound)
     {
-        if (!sounds.ContainsKey(sound))
+        if (!sounds.TryGetValue(sound, out Sound value))
         {
             Debug.Print("Sound '" + sound.ToString() + "' was not loaded or does not exist, so its volume can't be set");
             return;
         }
-        sounds[sound].SetSelfLinearVolume(volume);
+        value.SetSelfLinearVolume(volume);
     }
 
     public void SetLinearVolumeTagged(float volume, SoundTags tag)

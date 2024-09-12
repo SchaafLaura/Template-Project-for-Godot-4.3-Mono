@@ -15,9 +15,9 @@ public partial class AudioSettingsMenuBuilder : Node2D
     private Button buttonPrototype;
 
     Dictionary<Sounds, float> individualVolumes;
-    Dictionary<Sounds, HSlider> individualVolumeSliders = new();
+    Dictionary<Sounds, HSlider> individualVolumeSliders = [];
     Dictionary<SoundTags, float> categoryVolumes;
-    Dictionary<SoundTags, HSlider> categoryVolumeSliders = new();
+    Dictionary<SoundTags, HSlider> categoryVolumeSliders = [];
     float masterVolume;
     HSlider masterVolumeSlider;
 
@@ -30,22 +30,19 @@ public partial class AudioSettingsMenuBuilder : Node2D
 
         var soundDict = AudioServer.GetSoundList(allSounds);
         var soundsByTag = new Dictionary<SoundTags, List<(Sounds identifier, Sound sound)>>();
-        individualVolumes = new();
-        categoryVolumes = new();
+        individualVolumes = [];
+        categoryVolumes = [];
         foreach (var pair in soundDict)
         {
             var identifier = pair.Key;
             var sound = pair.Value;
             var tag = sound.tag;
 
-            if (!soundsByTag.ContainsKey(tag))
-                soundsByTag.Add(tag, new List<(Sounds identifiert, Sound sound)>());
+            soundsByTag.TryAdd(tag, new List<(Sounds identifiert, Sound sound)>());
             soundsByTag[tag].Add((identifier, sound));
 
-
             individualVolumes.Add(identifier, 1.0f);
-            if (!categoryVolumes.ContainsKey(tag))
-                categoryVolumes.Add(tag, 1.0f);
+            categoryVolumes.TryAdd(tag, 1.0f);
         }
         masterVolume = 1.0f;
 
@@ -140,8 +137,8 @@ public partial class AudioSettingsMenuBuilder : Node2D
         return new
         {
             masterVolume = empty ? 0.0f : masterVolume,
-            categoryVolumes = empty ? new Dictionary<SoundTags, float>() : categoryVolumes,
-            individualVolumes = empty ? new Dictionary<Sounds, float>() : individualVolumes,
+            categoryVolumes = empty ? [] : categoryVolumes,
+            individualVolumes = empty ? [] : individualVolumes,
         };
     }
 }

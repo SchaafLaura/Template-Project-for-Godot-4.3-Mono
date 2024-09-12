@@ -9,7 +9,7 @@ public partial class KeybindMenuBuilder: GridContainer
     KeybindButton prototypeButton;
     [Export]
     bool excludeGodotActions = true;
-    System.Collections.Generic.Dictionary<string, InputEvent[]> keybinds = new();
+    System.Collections.Generic.Dictionary<string, InputEvent[]> keybinds = [];
     public override void _Ready()
     {
 

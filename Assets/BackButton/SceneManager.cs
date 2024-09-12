@@ -4,7 +4,7 @@ using System.Linq;
 
 public static partial class SceneManager
 {
-    static List<string> scenePaths = new();
+    static readonly List<string> scenePaths = [];
     /// <summary>
     /// Uses GetTree().ChangeSceneToFile() to change the scene, but saves the path of the current one for use of back buttons
     /// </summary>

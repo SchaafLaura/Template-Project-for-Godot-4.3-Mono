@@ -34,7 +34,7 @@ public enum SoundTags
 
 public static partial class AudioServer
 {
-    private static FrozenDictionary<Sounds, (string resourceLocation, int polyphony, SoundTags tag)> soundDict = new Dictionary<Sounds, (string resourceLocation, int polyphony, SoundTags tag)>()
+    private static readonly FrozenDictionary<Sounds, (string resourceLocation, int polyphony, SoundTags tag)> soundDict = new Dictionary<Sounds, (string resourceLocation, int polyphony, SoundTags tag)>()
     {
         // sound identifier         resource location           polyphony           tag
         { Sounds.Bleep,         ("res://AudioServer/sfx/bleep.wav",       1,      SoundTags.General)          },
@@ -46,7 +46,7 @@ public static partial class AudioServer
 
     }.ToFrozenDictionary();
 
-    private static FrozenDictionary<SoundLists, Sounds[]> soundLists = new Dictionary<SoundLists, Sounds[]>()
+    private static readonly FrozenDictionary<SoundLists, Sounds[]> soundLists = new Dictionary<SoundLists, Sounds[]>()
     {
         // list identifier             sound list
         { SoundLists.Menu,      new Sounds[]{ Sounds.Bleep, Sounds.Bloop,  }},
@@ -58,12 +58,12 @@ public static partial class AudioServer
 
     public static Sounds[] GetSoundsFromCategory(SoundLists category)
     {
-        if (!soundLists.ContainsKey(category))
+        if (!soundLists.TryGetValue(category, out var ret))
         {
             Debug.Print("Tried getting sounds, but the category '" + category.ToString() + "' doesn't exist or doesn't have an entry in 'soundLists' in the (static) AudioServer");
-            return System.Array.Empty<Sounds>();
+            return [];
         }
-        return soundLists[category];
+        return ret;
     }
 
     public static FrozenDictionary<Sounds, Sound> GetSoundList(IEnumerable<Sounds> sounds)

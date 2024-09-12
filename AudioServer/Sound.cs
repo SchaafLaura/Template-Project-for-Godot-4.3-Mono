@@ -7,10 +7,10 @@ public class Sound
     public AudioStreamPlayer player;
     public readonly SoundTags tag;
 
-    public float masterLinearVolume { get; private set; } = 1.0f;
-    public float selfLinearVolume   { get; private set; } = 1.0f;
-    public float tagLinearVolume    { get; private set; } = 1.0f;
-    public float linearVolume       { get; private set; } = 1.0f;
+    public float MasterLinearVolume { get; private set; } = 1.0f;
+    public float SelfLinearVolume   { get; private set; } = 1.0f;
+    public float TagLinearVolume    { get; private set; } = 1.0f;
+    public float LinearVolume       { get; private set; } = 1.0f;
 
     public bool Is(SoundTags tag) => tag == this.tag;
 
@@ -54,25 +54,25 @@ public class Sound
 
     private void RecomputeVolume()
     {
-        linearVolume = selfLinearVolume * tagLinearVolume * masterLinearVolume;
-        player.VolumeDb = Mathf.LinearToDb(linearVolume);
+        LinearVolume = SelfLinearVolume * TagLinearVolume * MasterLinearVolume;
+        player.VolumeDb = Mathf.LinearToDb(LinearVolume);
     }
 
     public void SetMasterLinearVolume(float newMasterLinearVolume)
     {
-        masterLinearVolume = newMasterLinearVolume;
+        MasterLinearVolume = newMasterLinearVolume;
         RecomputeVolume();
     }
 
     public void SetSelfLinearVolume(float newSelfLinearVolume)
     {
-        selfLinearVolume = newSelfLinearVolume;
+        SelfLinearVolume = newSelfLinearVolume;
         RecomputeVolume();
     }
 
     public void SetTagLinearVolume(float newTagLinearVolume)
     {
-        tagLinearVolume = newTagLinearVolume;
+        TagLinearVolume = newTagLinearVolume;
         RecomputeVolume();
     }
 }
