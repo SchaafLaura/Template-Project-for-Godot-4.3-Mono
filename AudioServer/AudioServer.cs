@@ -37,12 +37,12 @@ public static partial class AudioServer
     private static FrozenDictionary<Sounds, (string resourceLocation, int polyphony, SoundTags tag)> soundDict = new Dictionary<Sounds, (string resourceLocation, int polyphony, SoundTags tag)>()
     {
         // sound identifier         resource location           polyphony           tag
-        { Sounds.Bleep,         ("res://Audio/sfx/bleep.wav",       1,      SoundTags.General)          },
-        { Sounds.Bloop,         ("res://Audio/sfx/bloop.wav",       1,      SoundTags.General)          },
-        { Sounds.Explosion,     ("res://Audio/sfx/explosion.wav",   1,      SoundTags.Detonations)      },
-        { Sounds.Mrrp,          ("res://Audio/sfx/mrrrrp.wav",      1,      SoundTags.General)          },
-        { Sounds.ExplosionB,    ("res://Audio/sfx/explosionB.wav",  1,      SoundTags.Detonations)      },
-        { Sounds.ShortSong,     ("res://Audio/music/shortMusic.mp3",1,      SoundTags.Music)            },
+        { Sounds.Bleep,         ("res://AudioServer/sfx/bleep.wav",       1,      SoundTags.General)          },
+        { Sounds.Bloop,         ("res://AudioServer/sfx/bloop.wav",       1,      SoundTags.General)          },
+        { Sounds.Explosion,     ("res://AudioServer/sfx/explosion.wav",   1,      SoundTags.Detonations)      },
+        { Sounds.Mrrp,          ("res://AudioServer/sfx/mrrrrp.wav",      1,      SoundTags.General)          },
+        { Sounds.ExplosionB,    ("res://AudioServer/sfx/explosionB.wav",  1,      SoundTags.Detonations)      },
+        { Sounds.ShortSong,     ("res://AudioServer/music/shortMusic.mp3",1,      SoundTags.Music)            },
 
     }.ToFrozenDictionary();
 
