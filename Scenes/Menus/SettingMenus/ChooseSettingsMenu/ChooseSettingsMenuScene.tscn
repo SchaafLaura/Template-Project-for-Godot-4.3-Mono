@@ -1,11 +1,36 @@
-[gd_scene format=3 uid="uid://bfow4iq6ervw6"]
+[gd_scene load_steps=3 format=3 uid="uid://bfow4iq6ervw6"]
+
+[ext_resource type="Script" path="res://Scenes/Menus/SettingMenus/ChooseSettingsMenu/ChooseSettingsButtonHandler.cs" id="1_l17mh"]
+[ext_resource type="PackedScene" uid="uid://b55y3msplkiv8" path="res://Assets/Button/ButtonPrototype.tscn" id="2_222dc"]
 
 [node name="ChooseSettingsMenuScene" type="Node2D"]
 
-[node name="Label" type="Label" parent="."]
+[node name="Node" type="Node" parent="."]
+script = ExtResource("1_l17mh")
+
+[node name="lbl_label" type="Label" parent="."]
 offset_left = 476.0
 offset_top = 255.0
 offset_right = 771.0
 offset_bottom = 445.0
 text = "choose settings menu
 "
+
+[node name="btn_audio" parent="." instance=ExtResource("2_222dc")]
+offset_left = 401.0
+offset_top = 321.0
+offset_right = 551.0
+offset_bottom = 356.0
+text = "audio
+"
+
+[node name="btn_keybinds" parent="." instance=ExtResource("2_222dc")]
+offset_left = 401.0
+offset_top = 382.0
+offset_right = 551.0
+offset_bottom = 417.0
+text = "keybinds
+"
+
+[connection signal="pressed" from="btn_audio" to="Node" method="OnAudioPressed"]
+[connection signal="pressed" from="btn_keybinds" to="Node" method="OnKeybindsPressed"]

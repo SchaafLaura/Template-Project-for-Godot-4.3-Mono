@@ -1,0 +1,77 @@
+[gd_scene load_steps=7 format=3 uid="uid://b55y3msplkiv8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1l0oy"]
+bg_color = Color(0.544871, 0.285625, 0.363355, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.673399, 0.460595, 0.722297, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l6bnv"]
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ynu8"]
+bg_color = Color(0.575382, 0.253073, 0.383478, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k5nce"]
+bg_color = Color(0.805137, 0.450592, 0.518893, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xfuj3"]
+bg_color = Color(0.454559, 0.190155, 0.235241, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x738y"]
+bg_color = Color(0.571634, 0.259093, 0.376579, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="btn_prototype" type="Button"]
+offset_right = 150.0
+offset_bottom = 35.0
+focus_mode = 0
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_normal_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_disabled_color = Color(0, 0, 0, 1)
+theme_override_styles/focus = SubResource("StyleBoxFlat_1l0oy")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxFlat_l6bnv")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_l6bnv")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxFlat_8ynu8")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8ynu8")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxFlat_k5nce")
+theme_override_styles/hover = SubResource("StyleBoxFlat_k5nce")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxFlat_xfuj3")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_xfuj3")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxFlat_x738y")
+theme_override_styles/normal = SubResource("StyleBoxFlat_x738y")
+text = "text"

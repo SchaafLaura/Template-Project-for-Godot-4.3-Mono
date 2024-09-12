@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://cwv3ty2mig0kl"]
+[gd_scene load_steps=4 format=3 uid="uid://cwv3ty2mig0kl"]
 
 [ext_resource type="Script" path="res://Scenes/Menus/SettingMenus/AudioMenu/AudioSettingsMenuBuilder.cs" id="1_vhywi"]
+[ext_resource type="PackedScene" uid="uid://b55y3msplkiv8" path="res://Assets/Button/ButtonPrototype.tscn" id="2_a5s4b"]
+[ext_resource type="PackedScene" uid="uid://b68othkytxl20" path="res://Assets/Slider/SliderPrototype.tscn" id="3_hhj03"]
 
 [node name="AudioSettingsScene" type="Node2D"]
 
@@ -17,33 +19,33 @@ script = ExtResource("1_vhywi")
 sliderPrototype = NodePath("../sld_prototype")
 buttonPrototype = NodePath("../btn_prototype")
 
-[node name="btn_prototype" type="Button" parent="."]
-offset_left = 92.0
-offset_top = 81.0
-offset_right = 141.0
-offset_bottom = 89.0
+[node name="btn_prototype" parent="." instance=ExtResource("2_a5s4b")]
+offset_left = 38.0
+offset_top = 211.0
+offset_right = 188.0
+offset_bottom = 246.0
+text = "prototype
+"
 
-[node name="sld_prototype" type="HSlider" parent="."]
-offset_left = 28.0
-offset_top = 128.0
-offset_right = 179.0
-offset_bottom = 144.0
-max_value = 1.0
-step = 0.01
-value = 1.0
+[node name="sld_prototype" parent="." instance=ExtResource("3_hhj03")]
+offset_left = 84.0
+offset_top = 106.0
+offset_right = 398.0
+offset_bottom = 126.0
 
-[node name="btn_save" type="Button" parent="."]
-offset_left = 649.0
-offset_top = 120.0
-offset_right = 793.0
-offset_bottom = 181.0
-text = "save"
+[node name="btn_save" parent="." instance=ExtResource("2_a5s4b")]
+offset_left = 777.0
+offset_top = 158.0
+offset_right = 927.0
+offset_bottom = 193.0
+text = "save
+"
 
-[node name="btn_load" type="Button" parent="."]
-offset_left = 653.0
-offset_top = 214.0
-offset_right = 797.0
-offset_bottom = 275.0
+[node name="btn_load" parent="." instance=ExtResource("2_a5s4b")]
+offset_left = 775.0
+offset_top = 225.0
+offset_right = 925.0
+offset_bottom = 260.0
 text = "load
 "
 
