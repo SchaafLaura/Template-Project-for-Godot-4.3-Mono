@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dfbbm4hq48jdw"]
+
+[ext_resource type="Script" path="res://Assets/BackButton/BackButtonScript.cs" id="1_4r5qf"]
+
+[node name="Button" type="Button"]
+offset_right = 62.0
+offset_bottom = 35.0
+text = "back"
+script = ExtResource("1_4r5qf")

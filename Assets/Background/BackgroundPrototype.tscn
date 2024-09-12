@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://pok7id0k87pv"]
+
+[node name="rct_background" type="ColorRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.383142, 0.324506, 0.350591, 1)

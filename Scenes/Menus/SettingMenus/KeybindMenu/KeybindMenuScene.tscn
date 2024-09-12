@@ -1,11 +1,43 @@
-[gd_scene format=3 uid="uid://chvq0o1wpf07a"]
+[gd_scene load_steps=6 format=3 uid="uid://cd4egrvhcquxc"]
 
-[node name="KeybindMenuScene" type="Node2D"]
+[ext_resource type="Script" path="res://Scenes/Menus/SettingMenus/KeybindMenu/KeybindMenuBuilder.cs" id="1_6udl5"]
+[ext_resource type="PackedScene" uid="uid://pok7id0k87pv" path="res://Assets/Background/BackgroundPrototype.tscn" id="1_glkbp"]
+[ext_resource type="PackedScene" uid="uid://b55y3msplkiv8" path="res://Assets/Button/ButtonPrototype.tscn" id="2_7t70a"]
+[ext_resource type="Script" path="res://Scenes/Menus/SettingMenus/KeybindMenu/KeybindButton.cs" id="3_fa3ki"]
+[ext_resource type="PackedScene" uid="uid://dfbbm4hq48jdw" path="res://Assets/BackButton/BackButtonPrototype.tscn" id="5_lhe0q"]
 
-[node name="Label" type="Label" parent="."]
-offset_left = 370.0
-offset_top = 165.0
-offset_right = 534.0
-offset_bottom = 297.0
-text = "keybinds
-"
+[node name="Node" type="Node"]
+
+[node name="rct_background" parent="." instance=ExtResource("1_glkbp")]
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 50.0
+offset_bottom = -47.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer" node_paths=PackedStringArray("prototypeButton")]
+layout_mode = 2
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 20
+columns = 5
+script = ExtResource("1_6udl5")
+prototypeButton = NodePath("../../btn_prototype")
+
+[node name="btn_prototype" parent="." instance=ExtResource("2_7t70a")]
+offset_left = 21.0
+offset_top = -50.0
+offset_right = 121.0
+offset_bottom = -20.0
+script = ExtResource("3_fa3ki")
+
+[node name="Button" parent="." instance=ExtResource("5_lhe0q")]
+offset_left = 22.0
+offset_top = 17.0
+offset_right = 84.0
+offset_bottom = 52.0

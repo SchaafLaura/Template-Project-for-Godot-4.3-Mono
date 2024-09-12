@@ -1,43 +1,52 @@
-[gd_scene load_steps=3 format=3 uid="uid://b11vmx6jy5y3b"]
+[gd_scene load_steps=4 format=3 uid="uid://b11vmx6jy5y3b"]
 
 [ext_resource type="Script" path="res://Scenes/Menus/MainMenu/MainMenuButtonHandler.cs" id="1_0m461"]
 [ext_resource type="PackedScene" uid="uid://b55y3msplkiv8" path="res://Assets/Button/ButtonPrototype.tscn" id="2_agubx"]
+[ext_resource type="PackedScene" uid="uid://pok7id0k87pv" path="res://Assets/Background/BackgroundPrototype.tscn" id="2_nwbus"]
 
-[node name="Node2D" type="Node2D"]
-
-[node name="Node" type="Node" parent="."]
+[node name="Node" type="Node"]
 script = ExtResource("1_0m461")
 
-[node name="lbl_label" type="Label" parent="."]
-offset_left = 378.0
-offset_top = 161.0
-offset_right = 563.0
-offset_bottom = 308.0
+[node name="rct_background" parent="." instance=ExtResource("2_nwbus")]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="lbl_label" type="Label" parent="Control/CenterContainer/VBoxContainer"]
+layout_mode = 2
 text = "main menu
 "
 
-[node name="btn_play" parent="." instance=ExtResource("2_agubx")]
-offset_left = 352.0
-offset_top = 261.0
-offset_right = 502.0
-offset_bottom = 296.0
+[node name="btn_play" parent="Control/CenterContainer/VBoxContainer" instance=ExtResource("2_agubx")]
+layout_mode = 2
 text = "play"
 
-[node name="btn_settings" parent="." instance=ExtResource("2_agubx")]
-offset_left = 352.0
-offset_top = 323.0
-offset_right = 502.0
-offset_bottom = 358.0
+[node name="btn_settings" parent="Control/CenterContainer/VBoxContainer" instance=ExtResource("2_agubx")]
+layout_mode = 2
 text = "settings"
 
-[node name="btn_quit" parent="." instance=ExtResource("2_agubx")]
-offset_left = 351.0
-offset_top = 385.0
-offset_right = 501.0
-offset_bottom = 420.0
+[node name="btn_quit" parent="Control/CenterContainer/VBoxContainer" instance=ExtResource("2_agubx")]
+layout_mode = 2
 text = "bye
 "
 
-[connection signal="pressed" from="btn_play" to="Node" method="OnStartPressed"]
-[connection signal="pressed" from="btn_settings" to="Node" method="OnSettingsPressed"]
-[connection signal="pressed" from="btn_quit" to="Node" method="OnQuitPressed"]
+[connection signal="pressed" from="Control/CenterContainer/VBoxContainer/btn_play" to="." method="OnStartPressed"]
+[connection signal="pressed" from="Control/CenterContainer/VBoxContainer/btn_settings" to="." method="OnSettingsPressed"]
+[connection signal="pressed" from="Control/CenterContainer/VBoxContainer/btn_quit" to="." method="OnQuitPressed"]

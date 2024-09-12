@@ -4,10 +4,10 @@ public partial class ChooseSettingsButtonHandler : Node
 {
     public void OnAudioPressed()
     {
-        GetTree().ChangeSceneToFile("res://Scenes/Menus/SettingMenus/AudioMenu/AudioMenuScene.tscn");
+        SceneManager.ChangeSceneForward("res://Scenes/Menus/SettingMenus/AudioMenu/AudioMenuScene.tscn", this);
     }
     public void OnKeybindsPressed()
     {
-        GetTree().ChangeSceneToFile("res://Scenes/Menus/SettingMenus/KeybindMenu/KeybindMenuScene.tscn");
+        SceneManager.ChangeSceneForward("res://Scenes/Menus/SettingMenus/KeybindMenu/KeybindMenuScene.tscn", this);
     }
 }

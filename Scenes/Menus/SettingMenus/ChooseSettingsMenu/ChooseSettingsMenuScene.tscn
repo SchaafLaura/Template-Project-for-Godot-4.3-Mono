@@ -1,36 +1,55 @@
-[gd_scene load_steps=3 format=3 uid="uid://bfow4iq6ervw6"]
+[gd_scene load_steps=5 format=3 uid="uid://bfow4iq6ervw6"]
 
 [ext_resource type="Script" path="res://Scenes/Menus/SettingMenus/ChooseSettingsMenu/ChooseSettingsButtonHandler.cs" id="1_l17mh"]
 [ext_resource type="PackedScene" uid="uid://b55y3msplkiv8" path="res://Assets/Button/ButtonPrototype.tscn" id="2_222dc"]
+[ext_resource type="PackedScene" uid="uid://pok7id0k87pv" path="res://Assets/Background/BackgroundPrototype.tscn" id="2_s30f3"]
+[ext_resource type="PackedScene" uid="uid://dfbbm4hq48jdw" path="res://Assets/BackButton/BackButtonPrototype.tscn" id="4_vhi8u"]
 
-[node name="ChooseSettingsMenuScene" type="Node2D"]
-
-[node name="Node" type="Node" parent="."]
+[node name="Node" type="Node"]
 script = ExtResource("1_l17mh")
 
-[node name="lbl_label" type="Label" parent="."]
-offset_left = 476.0
-offset_top = 255.0
-offset_right = 771.0
-offset_bottom = 445.0
-text = "choose settings menu
+[node name="rct_background" parent="." instance=ExtResource("2_s30f3")]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="lbl_label" type="Label" parent="Control/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Settings
 "
 
-[node name="btn_audio" parent="." instance=ExtResource("2_222dc")]
-offset_left = 401.0
-offset_top = 321.0
-offset_right = 551.0
-offset_bottom = 356.0
+[node name="btn_audio" parent="Control/CenterContainer/VBoxContainer" instance=ExtResource("2_222dc")]
+layout_mode = 2
 text = "audio
 "
 
-[node name="btn_keybinds" parent="." instance=ExtResource("2_222dc")]
-offset_left = 401.0
-offset_top = 382.0
-offset_right = 551.0
-offset_bottom = 417.0
+[node name="btn_keybinds" parent="Control/CenterContainer/VBoxContainer" instance=ExtResource("2_222dc")]
+layout_mode = 2
 text = "keybinds
 "
 
-[connection signal="pressed" from="btn_audio" to="Node" method="OnAudioPressed"]
-[connection signal="pressed" from="btn_keybinds" to="Node" method="OnKeybindsPressed"]
+[node name="Button" parent="." instance=ExtResource("4_vhi8u")]
+offset_left = 23.0
+offset_top = 14.0
+offset_right = 85.0
+offset_bottom = 49.0
+
+[connection signal="pressed" from="Control/CenterContainer/VBoxContainer/btn_audio" to="." method="OnAudioPressed"]
+[connection signal="pressed" from="Control/CenterContainer/VBoxContainer/btn_keybinds" to="." method="OnKeybindsPressed"]
