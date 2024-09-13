@@ -15,15 +15,19 @@ public partial class AudioSettingsMenuBuilder : Node2D
     private Button buttonPrototype;
 
     Dictionary<Sounds, float> individualVolumes;
-    Dictionary<Sounds, HSlider> individualVolumeSliders = [];
+    readonly Dictionary<Sounds, HSlider> individualVolumeSliders = [];
+
     Dictionary<SoundTags, float> categoryVolumes;
-    Dictionary<SoundTags, HSlider> categoryVolumeSliders = [];
+    readonly Dictionary<SoundTags, HSlider> categoryVolumeSliders = [];
+
     float masterVolume;
     HSlider masterVolumeSlider;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        masterVolume = AudioServer.MasterVolume;
+
         var allSounds = Enum.GetValues<Sounds>().Where(s => (int)s < int.MaxValue);
         var _audioServer = new AudioServerInstance(allSounds);
         AddChild(_audioServer);
@@ -41,11 +45,16 @@ public partial class AudioSettingsMenuBuilder : Node2D
             soundsByTag.TryAdd(tag, new List<(Sounds identifiert, Sound sound)>());
             soundsByTag[tag].Add((identifier, sound));
 
-            individualVolumes.Add(identifier, 1.0f);
-            categoryVolumes.TryAdd(tag, 1.0f);
-        }
-        masterVolume = 1.0f;
+            if(AudioServer.IndividualVolumes.TryGetValue(identifier, out float iValue))
+                individualVolumes.Add(identifier, iValue);
+            else
+                individualVolumes.Add(identifier, 1.0f);
 
+            if(AudioServer.CategoryVolumes.TryGetValue(tag, out float cValue))
+                categoryVolumes.TryAdd(tag, cValue);
+            else
+                categoryVolumes.TryAdd(tag, 1.0f);
+        }
 
         sliderPrototype.Visible = false;
         buttonPrototype.Visible = false;
@@ -55,6 +64,7 @@ public partial class AudioSettingsMenuBuilder : Node2D
         masterVolumeSlider.Position = new Vector2(140, 0);
         masterVolumeSlider.Size = new Vector2(100, 10);
         masterVolumeSlider.Visible = true;
+        masterVolumeSlider.Value = masterVolume;
         masterVolumeSlider.ValueChanged += (newValue) => { _audioServer.SetLinearVolumeMaster((float)newValue); masterVolume = (float)newValue; };
         AddChild(masterVolumeSlider);
 
@@ -71,6 +81,11 @@ public partial class AudioSettingsMenuBuilder : Node2D
             slider.Position = new Vector2(x + 100, y);
             slider.Size = new Vector2(100, 10);
             slider.Visible = true;
+            if (AudioServer.CategoryVolumes.TryGetValue(tag, out float cValue))
+                slider.Value = cValue;
+            else
+                slider.Value = 1.0f;
+
             slider.ValueChanged += (newValue) => { _audioServer.SetLinearVolumeTagged((float)newValue, tag); categoryVolumes[tag] = (float)newValue; };
             AddChild(slider);
             categoryVolumeSliders.Add(tag, slider);
@@ -91,6 +106,11 @@ public partial class AudioSettingsMenuBuilder : Node2D
                 individualSlider.Position = new Vector2(x + btn.Size.X + 20, y);
                 individualSlider.Size = new Vector2(100, 10);
                 individualSlider.Visible = true;
+                if (AudioServer.IndividualVolumes.TryGetValue(sound.identifier, out var iValue))
+                    individualSlider.Value = iValue;
+                else
+                    individualSlider.Value = 1.0f;
+                
                 individualSlider.ValueChanged += (newValue) => { _audioServer.SetLinearVolume((float)newValue, sound.identifier); individualVolumes[sound.identifier] = (float)newValue; };
                 AddChild(individualSlider);
                 individualVolumeSliders.Add(sound.identifier, individualSlider);
@@ -112,33 +132,23 @@ public partial class AudioSettingsMenuBuilder : Node2D
 
     public void Save()
     {
-        var saveData = GetSaveData();
-        var json = JsonConvert.SerializeObject(saveData);
-        File.WriteAllText("soundSettings.json", json);
+        AudioServer.Save(masterVolume, individualVolumes, categoryVolumes);
     }
 
     public void Load()
     {
-        var json = File.ReadAllText("soundSettings.json");
-        var load = (dynamic)JsonConvert.DeserializeAnonymousType(json, GetSaveData(empty: true))!;
-        masterVolume = (float)load.masterVolume;
-        categoryVolumes = load.categoryVolumes.ToObject<Dictionary<SoundTags, float>>();
-        individualVolumes = load.individualVolumes.ToObject<Dictionary<Sounds, float>>();
-
+        var (mVol, iVol, cVol) = AudioServer.Load();
+        masterVolume = mVol;
         masterVolumeSlider.Value = masterVolume;
-        foreach (var sound in individualVolumes.Keys)
-            individualVolumeSliders[sound].Value = individualVolumes[sound];
-        foreach (var soundTag in categoryVolumes.Keys)
-            categoryVolumeSliders[soundTag].Value = categoryVolumes[soundTag];
-    }
+        individualVolumes = new(iVol);
+        categoryVolumes = new(cVol);
 
-    private object GetSaveData(bool empty = false)
-    {
-        return new
-        {
-            masterVolume = empty ? 0.0f : masterVolume,
-            categoryVolumes = empty ? [] : categoryVolumes,
-            individualVolumes = empty ? [] : individualVolumes,
-        };
+        foreach(var pair in individualVolumes)
+            if(individualVolumeSliders.TryGetValue(pair.Key, out var slider))
+                slider.Value = pair.Value;
+
+        foreach(var pair in categoryVolumes) 
+            if(categoryVolumeSliders.TryGetValue(pair.Key, out var slider))
+                slider.Value = pair.Value;
     }
 }

@@ -51,9 +51,9 @@ public partial class AudioServerInstance : Node
         value.Stop();
     }
 
-#pragma warning disable CA1822 // Mark members as static
+    #pragma warning disable CA1822 // disable "Mark members as static"
     public Sounds GetSoundByName(string name)
-#pragma warning restore CA1822 // Mark members as static
+    #pragma warning restore CA1822
     {
         Sounds sound = (Sounds)(-1);
         try
@@ -91,6 +91,7 @@ public partial class AudioServerInstance : Node
     {
         foreach(var sound in sounds.Values)
             sound.SetMasterLinearVolume(volume);
+        AudioServer.SetLinearVolumeMaster(volume);
     }
 
     public void SetLinearVolume(float volume, Sounds sound)
@@ -101,6 +102,7 @@ public partial class AudioServerInstance : Node
             return;
         }
         value.SetSelfLinearVolume(volume);
+        AudioServer.SetLinearVolume(volume, sound);
     }
 
     public void SetLinearVolumeTagged(float volume, SoundTags tag)
@@ -108,5 +110,6 @@ public partial class AudioServerInstance : Node
         foreach(var sound in sounds.Values)
             if(sound.Is(tag))
                 sound.SetTagLinearVolume(volume);
+        AudioServer.SetLinearVolumeTagged(volume, tag);
     }
 }
