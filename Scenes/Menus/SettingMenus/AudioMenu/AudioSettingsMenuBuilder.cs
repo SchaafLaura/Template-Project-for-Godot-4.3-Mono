@@ -1,10 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Newtonsoft.Json;
-using System.IO;
 
 public partial class AudioSettingsMenuBuilder : Node2D
 {
@@ -65,28 +62,21 @@ public partial class AudioSettingsMenuBuilder : Node2D
         masterVolumeSlider.Size = new Vector2(100, 10);
         masterVolumeSlider.Visible = true;
         masterVolumeSlider.Value = masterVolume;
-        masterVolumeSlider.ValueChanged += (newValue) => { _audioServer.SetLinearVolumeMaster((float)newValue); masterVolume = (float)newValue; };
+        masterVolumeSlider.ValueChanged += (newValue) => 
+        { 
+            _audioServer.SetLinearVolumeMaster((float)newValue); 
+            masterVolume = (float)newValue; 
+        };
         AddChild(masterVolumeSlider);
 
         var y = 50;
         var x = 50;
         foreach (var tag in soundsByTag.Keys)
         {
-            var tagAsString = tag.ToString();
             var sounds = soundsByTag[tag];
-            var label = new Label() { Text = tagAsString, Position = new Vector2(x, y) };
-            AddChild(label);
+            AddChild(GetLabel(tag, new Vector2(x, y)));
 
-            var slider = (HSlider)sliderPrototype.Duplicate();
-            slider.Position = new Vector2(x + 100, y);
-            slider.Size = new Vector2(100, 10);
-            slider.Visible = true;
-            if (AudioServer.CategoryVolumes.TryGetValue(tag, out float cValue))
-                slider.Value = cValue;
-            else
-                slider.Value = 1.0f;
-
-            slider.ValueChanged += (newValue) => { _audioServer.SetLinearVolumeTagged((float)newValue, tag); categoryVolumes[tag] = (float)newValue; };
+            var slider = GetSlider(tag, new Vector2(x + 100, y), _audioServer);
             AddChild(slider);
             categoryVolumeSliders.Add(tag, slider);
 
@@ -95,23 +85,10 @@ public partial class AudioSettingsMenuBuilder : Node2D
             {
                 y += 40;
 
-                var btn = (Button)buttonPrototype.Duplicate();
-                btn.Position = new Vector2(x, y);
-                btn.Visible = true;
-                btn.Text = sound.identifier.ToString();
-                btn.Pressed += () => { _audioServer.Toggle(sound.identifier); };
+                var btn = GetButton(sound.identifier, new Vector2(x, y), _audioServer);
                 AddChild(btn);
 
-                var individualSlider = (HSlider)sliderPrototype.Duplicate();
-                individualSlider.Position = new Vector2(x + btn.Size.X + 20, y);
-                individualSlider.Size = new Vector2(100, 10);
-                individualSlider.Visible = true;
-                if (AudioServer.IndividualVolumes.TryGetValue(sound.identifier, out var iValue))
-                    individualSlider.Value = iValue;
-                else
-                    individualSlider.Value = 1.0f;
-                
-                individualSlider.ValueChanged += (newValue) => { _audioServer.SetLinearVolume((float)newValue, sound.identifier); individualVolumes[sound.identifier] = (float)newValue; };
+                var individualSlider = GetSlider(sound.identifier, new Vector2(x + btn.Size.X + 20, y), _audioServer);
                 AddChild(individualSlider);
                 individualVolumeSliders.Add(sound.identifier, individualSlider);
             }
@@ -120,14 +97,61 @@ public partial class AudioSettingsMenuBuilder : Node2D
         }
     }
 
-    public void PrintValues()
+    private Button GetButton(Sounds sound, Vector2 pos, AudioServerInstance audioServer)
     {
-        Debug.Print("master Volume: " + masterVolume.ToString());
-        foreach (var pair in categoryVolumes)
-            Debug.Print(pair.Key.ToString() + " Volume: " + pair.Value.ToString());
+        var btn = (Button)buttonPrototype.Duplicate();
+        btn.Position = pos;
+        btn.Visible = true;
+        btn.Text = sound.ToString();
+        btn.Pressed += () => 
+        { 
+            audioServer.Toggle(sound); 
+        };
+        return btn;
+    }
 
-        foreach (var pair in individualVolumes)
-            Debug.Print(pair.Key.ToString() + " Volume: " + pair.Value.ToString());
+    private HSlider GetSlider(Sounds sound, Vector2 pos, AudioServerInstance audioServer)
+    {
+        var individualSlider = (HSlider)sliderPrototype.Duplicate();
+        individualSlider.Position = pos;
+        individualSlider.Size = new Vector2(100, 10);
+        individualSlider.Visible = true;
+        if (AudioServer.IndividualVolumes.TryGetValue(sound, out var iValue))
+            individualSlider.Value = iValue;
+        else
+            individualSlider.Value = 1.0f;
+
+        individualSlider.ValueChanged += (newValue) => 
+        { 
+            audioServer.SetLinearVolume((float)newValue, sound); 
+            individualVolumes[sound] = (float)newValue; 
+        };
+        return individualSlider;
+    }
+
+    private HSlider GetSlider(SoundTags tag, Vector2 pos, AudioServerInstance audioServer)
+    {
+        var slider = (HSlider)sliderPrototype.Duplicate();
+        slider.Position = pos;
+        slider.Size = new Vector2(100, 10);
+        slider.Visible = true;
+        if (AudioServer.CategoryVolumes.TryGetValue(tag, out float cValue))
+            slider.Value = cValue;
+        else
+            slider.Value = 1.0f;
+
+        slider.ValueChanged += (newValue) =>
+        {
+            audioServer.SetLinearVolumeTagged((float)newValue, tag);
+            categoryVolumes[tag] = (float)newValue;
+        };
+        return slider;
+    }
+
+    private Label GetLabel(SoundTags tag, Vector2 pos)
+    {
+        var tagAsString = tag.ToString();
+        return new Label() { Text = tagAsString, Position = pos };
     }
 
     public void Save()

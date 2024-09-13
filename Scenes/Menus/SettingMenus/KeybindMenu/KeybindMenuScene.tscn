@@ -28,6 +28,7 @@ theme_override_constants/v_separation = 20
 columns = 5
 script = ExtResource("1_6udl5")
 prototypeButton = NodePath("../../btn_prototype")
+excludeGodotActions = false
 
 [node name="btn_prototype" parent="." instance=ExtResource("2_7t70a")]
 offset_left = 21.0
