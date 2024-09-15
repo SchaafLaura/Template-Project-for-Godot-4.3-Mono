@@ -21,6 +21,19 @@ public partial class AudioServerInstance : Node
         AddPlayersAsChildren();
     }
 
+    /// <summary>
+    /// Stops the playback of all sounds
+    /// </summary>
+    public void StopAllSounds()
+    {
+        foreach (var sound in sounds.Values)
+            sound.Stop();
+    }
+
+    /// <summary>
+    /// Either calls Play() or Stop() on a specific sound
+    /// </summary>
+    /// <param name="soundToToggle">The sound to toggle</param>
     public void Toggle(Sounds soundToToggle)
     {
         if (!sounds.TryGetValue(soundToToggle, out Sound value))
@@ -31,6 +44,10 @@ public partial class AudioServerInstance : Node
         value.Toggle();
     }
 
+    /// <summary>
+    /// En-/disable looping for a sound
+    /// </summary>
+    /// <param name="soundToToggleLooping">Which sound to toggle the looping status of</param>
     public void ToggleLooping(Sounds soundToToggleLooping)
     {
         if (!sounds.TryGetValue(soundToToggleLooping, out Sound value))
@@ -41,6 +58,10 @@ public partial class AudioServerInstance : Node
         value.ToggleLooping();
     }
 
+    /// <summary>
+    /// Stops the sound from playing
+    /// </summary>
+    /// <param name="soundToStop">Which sound to stop</param>
     public void Stop(Sounds soundToStop)
     {
         if (!sounds.TryGetValue(soundToStop, out Sound value))
@@ -78,6 +99,11 @@ public partial class AudioServerInstance : Node
         return sound;
     }
 
+    /// <summary>
+    /// Plays a sound
+    /// </summary>
+    /// <param name="soundToPlay">Which sound to play</param>
+    /// <param name="fromPosition">(optional) From where to start playback (in seconds)</param>
     public void Play(Sounds soundToPlay, float fromPosition = 0)
     {
         if (!sounds.TryGetValue(soundToPlay, out Sound value))
@@ -88,7 +114,7 @@ public partial class AudioServerInstance : Node
         value.Play(fromPosition);
     }
 
-    public void AddPlayersAsChildren()
+    private void AddPlayersAsChildren()
     {
         sounds = AudioServer.GetSoundList(soundsToLoad
                     .Distinct() // remove duplicates and dummy sound
@@ -98,6 +124,10 @@ public partial class AudioServerInstance : Node
                 AddChild(sound.player);
     }
 
+    /// <summary>
+    /// Sets the master volume of every loaded sound to volume
+    /// </summary>
+    /// <param name="volume">The new volume</param>
     public void SetLinearVolumeMaster(float volume)
     {
         foreach(var sound in sounds.Values)
@@ -105,6 +135,11 @@ public partial class AudioServerInstance : Node
         AudioServer.SetLinearVolumeMaster(volume);
     }
 
+    /// <summary>
+    /// Sets the individual volume of the sound given by its identifier
+    /// </summary>
+    /// <param name="volume">The new volume</param>
+    /// <param name="sound">The sound</param>
     public void SetLinearVolume(float volume, Sounds sound)
     {
         if (!sounds.TryGetValue(sound, out Sound value))
@@ -116,6 +151,11 @@ public partial class AudioServerInstance : Node
         AudioServer.SetLinearVolume(volume, sound);
     }
 
+    /// <summary>
+    /// Sets the the category volume of every sound of the given category to volume
+    /// </summary>
+    /// <param name="volume">The new volume</param>
+    /// <param name="tag">The category of sounds</param>
     public void SetLinearVolumeTagged(float volume, SoundTags tag)
     {
         foreach(var sound in sounds.Values)

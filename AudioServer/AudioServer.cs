@@ -67,6 +67,10 @@ public static partial class AudioServer
         Load();
     }
 
+    /// <summary>
+    /// Loads and returns volumes
+    /// </summary>
+    /// <returns>A triple of volume data for use in AudioServerInstance</returns>
     public static (float masterVolume, Dictionary<Sounds, float> individualVolumes, Dictionary<SoundTags, float> categoryVolumes) Load()
     {
         var json = File.ReadAllText("soundSettings.json");
@@ -79,6 +83,9 @@ public static partial class AudioServer
         return (MasterVolume, IndividualVolumes, CategoryVolumes);
     }
 
+    /// <summary>
+    /// Sets and saves the provided parameter
+    /// </summary>
     public static void Save(float masterVolume, Dictionary<Sounds, float> individualVolumes, Dictionary<SoundTags, float> categoryVolumes)
     {
         MasterVolume = masterVolume;
@@ -94,17 +101,26 @@ public static partial class AudioServer
     {
         return new
         {
-            masterVolume        = empty ? 0.0f : MasterVolume,
-            categoryVolumes     = empty ? [] : CategoryVolumes,
-            individualVolumes   = empty ? [] : IndividualVolumes,
+            masterVolume        = empty ? 0.0f  : MasterVolume,
+            categoryVolumes     = empty ? []    : CategoryVolumes,
+            individualVolumes   = empty ? []    : IndividualVolumes,
         };
     }
 
+    /// <summary>
+    /// Sets the master volume of every loaded sound to volume
+    /// </summary>
+    /// <param name="volume">The new volume</param>
     public static void SetLinearVolumeMaster(float volume)
     {
         MasterVolume = volume;
     }
 
+    /// <summary>
+    /// Sets the individual volume of the sound given by its identifier
+    /// </summary>
+    /// <param name="volume">The new volume</param>
+    /// <param name="sound">The sound</param>
     public static void SetLinearVolume(float volume, Sounds sound)
     {
         if (!IndividualVolumes.ContainsKey(sound))
@@ -115,6 +131,11 @@ public static partial class AudioServer
         IndividualVolumes[sound] = volume;
     }
 
+    /// <summary>
+    /// Sets the the category volume of every sound of the given category to volume
+    /// </summary>
+    /// <param name="volume">The new volume</param>
+    /// <param name="tag">The category of sounds</param>
     public static void SetLinearVolumeTagged(float volume, SoundTags tag)
     {
         if (!CategoryVolumes.ContainsKey(tag))
@@ -125,16 +146,26 @@ public static partial class AudioServer
         CategoryVolumes[tag] = volume;
     }
 
+    /// <summary>
+    /// Takes a category and returns all sounds from that category. For use in <c>AudioServer.GetSoundList()</c>
+    /// </summary>
+    /// <param name="category">The category to get the sounds of</param>
+    /// <returns>An array of enum values from "Sounds"</returns>
     public static Sounds[] GetSoundsFromCategory(SoundLists category)
     {
         if (!soundLists.TryGetValue(category, out var ret))
         {
-            Debug.Print("Tried getting sounds, but the category '" + category.ToString() + "' doesn't exist or doesn't have an entry in 'soundLists' in the (static) AudioServer");
+            Debug.Print("Tried getting sounds, but the category '" + category.ToString() + "' doesn't exist or doesn't have an entry in 'soundLists' (from static audioserver)");
             return [];
         }
         return ret;
     }
 
+    /// <summary>
+    /// Gets all sounds that are in the IEnumerable provided in a dictionary
+    /// </summary>
+    /// <param name="sounds">The sounds to retrieve from the server</param>
+    /// <returns>A frozen dicitonary, that can not be altered, but has nice lookup times</returns>
     public static FrozenDictionary<Sounds, Sound> GetSoundList(IEnumerable<Sounds> sounds)
     {
         var soundList = new Dictionary<Sounds, Sound>();
