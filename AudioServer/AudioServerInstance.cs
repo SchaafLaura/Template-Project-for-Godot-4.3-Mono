@@ -51,6 +51,17 @@ public partial class AudioServerInstance : Node
         value.Stop();
     }
 
+    /// <summary>
+    /// For usage from GDScript in calls like <br/>
+    /// <c>audioServerInstance.Play(GetSoundByName("Bloop"))</c> <br/> <br/>
+    /// Ignores the case of the name so these two:
+    /// <code>
+    ///     GetSoundByName("abcdefg"); 
+    ///     GetSoundByName("AbCDefG");
+    /// </code> will return the same thing.
+    /// </summary>
+    /// <param name="name">Name of the sound to get the Enum value for</param>
+    /// <returns>The value of the enum "Sounds" with the name "name". Returns -1 (cast to Sounds) if the sound does not exist (and prints a message to the console)</returns>
     #pragma warning disable CA1822 // disable "Mark members as static"
     public Sounds GetSoundByName(string name)
     #pragma warning restore CA1822

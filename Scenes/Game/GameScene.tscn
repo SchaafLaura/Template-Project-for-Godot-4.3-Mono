@@ -12,7 +12,7 @@ offset_bottom = 264.0
 text = "game"
 
 [node name="Button" parent="." instance=ExtResource("1_18w7v")]
-offset_left = 298.0
-offset_top = 238.0
-offset_right = 360.0
-offset_bottom = 273.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 67.0
+offset_bottom = 40.0

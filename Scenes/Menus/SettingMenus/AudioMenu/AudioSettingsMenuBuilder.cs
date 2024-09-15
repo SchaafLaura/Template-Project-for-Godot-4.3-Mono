@@ -80,6 +80,7 @@ public partial class AudioSettingsMenuBuilder : Node2D
             AddChild(slider);
             categoryVolumeSliders.Add(tag, slider);
 
+            #if DEBUG
             x = 60;
             foreach (var sound in sounds)
             {
@@ -93,6 +94,7 @@ public partial class AudioSettingsMenuBuilder : Node2D
                 individualVolumeSliders.Add(sound.identifier, individualSlider);
             }
             x = 50;
+            #endif
             y += 80;
         }
     }
@@ -148,7 +150,8 @@ public partial class AudioSettingsMenuBuilder : Node2D
         return slider;
     }
 
-    private Label GetLabel(SoundTags tag, Vector2 pos)
+
+    private static Label GetLabel(SoundTags tag, Vector2 pos)
     {
         var tagAsString = tag.ToString();
         return new Label() { Text = tagAsString, Position = pos };

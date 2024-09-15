@@ -70,10 +70,10 @@ offset_right = 359.0
 offset_bottom = -208.0
 
 [node name="Button" parent="." instance=ExtResource("5_50pnc")]
-offset_left = 50.0
-offset_top = 50.0
-offset_right = 112.0
-offset_bottom = 85.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 67.0
+offset_bottom = 40.0
 
 [connection signal="pressed" from="Control/save_load_anchor/HBoxContainer/btn_load" to="AudioSettingsMenuBuilder" method="Load"]
 [connection signal="pressed" from="Control/save_load_anchor/HBoxContainer/btn_save" to="AudioSettingsMenuBuilder" method="Save"]
